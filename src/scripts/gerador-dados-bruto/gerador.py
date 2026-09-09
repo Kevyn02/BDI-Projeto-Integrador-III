@@ -7,11 +7,11 @@ from pathlib import Path
 # ============================================================
 np.random.seed(42)
 
-N_LINHAS = 1500
-pasta_atual = Path(__file__).resolve().parent.parent.parent
-PASTA_DADOS_BRUTO = pasta_atual / "dados" / "bruto"
+N_LINHAS = 250
+PASTA_DADOS_BRUTO = Path("dados/bruto")
+ARQUIVO_SAIDA = Path("dados/bruto").resolve() / "dados_industriais_brutos.csv"
+
 Path(PASTA_DADOS_BRUTO).mkdir(parents=True, exist_ok=True)
-ARQUIVO_SAIDA = PASTA_DADOS_BRUTO/ "dados_industriais_brutos.csv"
 
 # ============================================================
 # Geração dos dados-base
