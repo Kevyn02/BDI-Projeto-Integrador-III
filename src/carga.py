@@ -1,9 +1,8 @@
 from abc import ABC, abstractmethod
 from pathlib import Path
-from .excecoes import ArquivoNaoEncontradoError,EsquemaInvalidoError
+from .excecoes import ArquivoNaoEncontradoError, EsquemaInvalidoError
 import logging
 import pandas as pd
-
 
 logger = logging.getLogger(__name__)
 
@@ -16,7 +15,9 @@ class CarregadorBase(ABC):
         colunas_obrigatorias: Colunas que devem existir após a leitura.
     """
 
-    def __init__(self, caminho: str, colunas_obrigatorias: list[str] | None = None) -> None:
+    def __init__(
+        self, caminho: str, colunas_obrigatorias: list[str] | None = None
+    ) -> None:
         self.caminho = Path(caminho)
         self.colunas_obrigatorias = colunas_obrigatorias or []
 
@@ -47,11 +48,18 @@ class CarregadorBase(ABC):
 class CarregadorCSV(CarregadorBase):
     """Carrega dados industriais a partir de arquivo CSV."""
 
-    def __init__(self, caminho, colunas_obrigatorias=None,
-                 sep: str = ",", encoding: str = "utf-8", decimal: str = "."):
+    def __init__(
+        self,
+        caminho,
+        colunas_obrigatorias=None,
+        sep: str = ",",
+        encoding: str = "utf-8",
+        decimal: str = ".",
+    ):
         super().__init__(caminho, colunas_obrigatorias)
         self.sep, self.encoding, self.decimal = sep, encoding, decimal
 
     def _ler(self) -> pd.DataFrame:
-        return pd.read_csv(self.caminho, sep=self.sep,
-                           encoding=self.encoding, decimal=self.decimal)
+        return pd.read_csv(
+            self.caminho, sep=self.sep, encoding=self.encoding, decimal=self.decimal
+        )

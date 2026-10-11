@@ -8,10 +8,12 @@ from pathlib import Path
 np.random.seed(42)
 
 N_LINHAS = 250
+PASTA_DADOS_TRATADOS = Path("dados/tratados")
 PASTA_DADOS_BRUTO = Path("dados/bruto")
 ARQUIVO_SAIDA = Path("dados/bruto").resolve() / "dados_industriais_brutos.csv"
 
 Path(PASTA_DADOS_BRUTO).mkdir(parents=True, exist_ok=True)
+Path(PASTA_DADOS_TRATADOS).mkdir(parents=True, exist_ok=True)
 
 # ============================================================
 # Geração dos dados-base

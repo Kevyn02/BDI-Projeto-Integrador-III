@@ -1,5 +1,5 @@
 from src.carga import CarregadorCSV
-from src.excecoes import ArquivoNaoEncontradoError, EsquemaInvalidoError,PipelineError
+from src.excecoes import ArquivoNaoEncontradoError, EsquemaInvalidoError, PipelineError
 from src.exportacao import ExportadorDados
 from src.limpeza import LimpadorDados
 from src.pipeline import PipelineDados
@@ -9,23 +9,39 @@ from pathlib import Path
 import pandas as pd
 
 CAMINHO_BRUTO = Path("dados/bruto").resolve()
-CAMINHO_CSV_ORIGINAL = Path(CAMINHO_BRUTO.resolve() / "dados_industriais_brutos.csv").resolve()
 CAMINHO_TRATADO = Path("dados/tratado").resolve()
+CAMINHO_CSV_ORIGINAL = Path(
+    CAMINHO_BRUTO.resolve() / "dados_industriais_brutos.csv"
+).resolve()
 COLS_OBRIGATORIAS = None
 # ["Timestamp Registro","ID Maquina","Temp (°C)","Vibração mm/s","Pecas Produzidas","Pecas Refugadas","Status Operacao"]
 
+logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 
 logger = logging.getLogger(__name__)
+
 
 def main() -> int:
     # configurar_logging()
     try:
-        df = CarregadorCSV(CAMINHO_BRUTO, COLS_OBRIGATORIAS).carregar()
-        pipeline = PipelineDados([
-            LimpadorDados(["Timestamp Registro"], "Timestamp Registro",["Temp (°C)","Vibração mm/s" ,"Pecas Produzidas","Pecas Refugadas" ],["ID Maquina","Status Operacao"] ),
-            TransformadorDados(),
-            ExportadorDados(CAMINHO_TRATADO)
-            ])
+        df = CarregadorCSV(CAMINHO_CSV_ORIGINAL, COLS_OBRIGATORIAS).carregar()
+        pipeline = PipelineDados(
+            [
+                LimpadorDados(
+                    ["Timestamp Registro"],
+                    "Timestamp Registro",
+                    [
+                        "Temp (°C)",
+                        "Vibração mm/s",
+                        "Pecas Produzidas",
+                        "Pecas Refugadas",
+                    ],
+                    ["ID Maquina", "Status Operacao"],
+                ),
+                # TransformadorDados(),
+                # ExportadorDados(CAMINHO_TRATADO),
+            ]
+        )
         df_final = pipeline.rodar(df)
 
     except ArquivoNaoEncontradoError as e:
@@ -45,3 +61,6 @@ def main() -> int:
         return 0
     finally:
         logger.info("Execução finalizada — log disponível em logs/pipeline.log")
+
+
+main()
