@@ -1,9 +1,9 @@
-2026-10-11 16:30:19,755 - INFO - src.carga - Carga concluída: 26000 linhas, 7 colunas
-2026-10-11 16:30:19,880 - INFO - src.limpeza - Limpeza: {'duplicatas_removidas': 8499, 'registros_sem_chave_ou_data': 1, 'outliers_Temp (°C)': 732, 'outliers_Vibração mm/s': 750, 'outliers_Pecas Produzidas': 83, 'outliers_Pecas Refugadas': 1790}
-2026-10-11 16:30:19,880 - INFO - src.pipeline - [estagio] 26000 → 17500 linhas
-2026-10-11 16:30:19,934 - INFO - src.transformacao - Transformação concluída: 17500 registros
-2026-10-11 16:30:19,936 - INFO - src.pipeline - [estagio] 17500 → 17500 linhas
-2026-10-11 16:30:20,273 - INFO - src.exportacao - Exportação concluída: C:\www\python\BDI-Projeto-Integrador-III\dados\tratado\dados_tratados.csv (17500 registros)
-2026-10-11 16:30:20,273 - INFO - src.pipeline - [exportacao] 17500 → 17500 linhas
-2026-10-11 16:30:20,274 - INFO - __main__ - Pipeline concluído com sucesso: 17500 registros
-2026-10-11 16:30:20,274 - INFO - __main__ - Execução finalizada — log disponível em logs/pipeline.log
+2026-10-11 16:34:52,479 - INFO - src.carga - Carga concluída: 26000 linhas, 7 colunas
+2026-10-11 16:34:52,631 - INFO - src.limpeza - Limpeza: {'duplicatas_removidas': 8499, 'registros_sem_chave_ou_data': 1, 'outliers_Temp (°C)': 732, 'outliers_Vibração mm/s': 750, 'outliers_Pecas Produzidas': 83, 'outliers_Pecas Refugadas': 1790}
+2026-10-11 16:34:52,632 - INFO - src.pipeline - [estagio] 26000 → 17500 linhas
+2026-10-11 16:34:52,708 - INFO - src.transformacao - Transformação concluída: 17500 registros
+2026-10-11 16:34:52,716 - INFO - src.pipeline - [estagio] 17500 → 17500 linhas
+2026-10-11 16:34:53,135 - INFO - src.exportacao - Exportação concluída: C:\www\python\BDI-Projeto-Integrador-III\dados\tratado\dados_tratados.csv (17500 registros)
+2026-10-11 16:34:53,135 - INFO - src.pipeline - [exportacao] 17500 → 17500 linhas
+2026-10-11 16:34:53,135 - INFO - __main__ - Pipeline concluído com sucesso: 17500 registros
+2026-10-11 16:34:53,136 - INFO - __main__ - Execução finalizada — log disponível em logs/pipeline.log
