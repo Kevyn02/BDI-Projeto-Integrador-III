@@ -16,7 +16,17 @@ CAMINHO_CSV_ORIGINAL = Path(
 COLS_OBRIGATORIAS = None
 # ["Timestamp Registro","ID Maquina","Temp (°C)","Vibração mm/s","Pecas Produzidas","Pecas Refugadas","Status Operacao"]
 
-logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
+CAMINHO_LOG = Path("logs/pipeline.log").resolve()
+CAMINHO_LOG.parent.mkdir(parents=True, exist_ok=True)
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
+    handlers=[
+        logging.StreamHandler(),
+        logging.FileHandler(CAMINHO_LOG, mode="w", encoding="utf-8"),
+    ],
+)
 
 logger = logging.getLogger(__name__)
 
@@ -38,8 +48,12 @@ def main() -> int:
                     ],
                     ["ID Maquina", "Status Operacao"],
                 ),
-                # TransformadorDados(),
-                # ExportadorDados(CAMINHO_TRATADO),
+                TransformadorDados("Timestamp Registro"),
+                ExportadorDados(
+                    CAMINHO_TRATADO,
+                    formato="csv",
+                    versionar=True,
+                ),
             ]
         )
         df_final = pipeline.rodar(df)
