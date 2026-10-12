@@ -42,6 +42,8 @@ class LimpadorDados(EstagioBase):
             numéricos e utilizadas na identificação de outliers.
         cols_categoricas (list[str]): Colunas cujos valores são
             convertidos para texto e padronizados em maiúsculas.
+        cols_padronizar: Colunas cujos valores terão espaços externos removidos,
+            letras convertidas para maiúsculas e hífens e sublinhados removidos.
         limite_iqr (float): Multiplicador do intervalo interquartil
             utilizado para definir os limites dos outliers.
         relatorio (dict[str, int]): Quantidades de registros removidos
@@ -56,6 +58,7 @@ class LimpadorDados(EstagioBase):
         col_data: str,
         cols_numericas: list[str],
         cols_categoricas: list[str],
+        cols_padronizar: list[str],
         limite_iqr: float = 1.5,
     ) -> None:
         """
@@ -69,6 +72,8 @@ class LimpadorDados(EstagioBase):
                 valores numéricos e analisadas quanto a outliers.
             cols_categoricas: Colunas categóricas que serão convertidas
                 para texto e padronizadas.
+            cols_padronizar: Colunas cujos valores terão espaços externos removidos,
+                letras convertidas para maiúsculas e hífens e sublinhados removidos.
             limite_iqr: Multiplicador do intervalo interquartil usado
                 no cálculo dos limites dos outliers. O padrão é 1.5.
         """
@@ -77,6 +82,7 @@ class LimpadorDados(EstagioBase):
         self.col_data = col_data
         self.cols_numericas = cols_numericas
         self.cols_categoricas = cols_categoricas
+        self.cols_padronizar = cols_padronizar
         self.limite_iqr = limite_iqr
 
         # Armazena as quantidades de alterações para fins de auditoria.
@@ -108,6 +114,7 @@ class LimpadorDados(EstagioBase):
         df = self._remover_duplicatas(df)
         df = self._tratar_ausentes(df)
         df = self._padronizar_categorias(df)
+        df = self._padronizar_valores_coluna(df)
         df = self._marcar_outliers(df)
 
         logger.info("Limpeza: %s", self.relatorio)
@@ -284,5 +291,31 @@ class LimpadorDados(EstagioBase):
 
         for col in self.cols_categoricas:
             df[col] = df[col].str.strip().str.upper()
+
+        return df
+
+    def _padronizar_valores_coluna(self, df: pd.DataFrame) -> pd.DataFrame:
+        """Padroniza os valores das colunas configuradas na classe.
+
+        Para cada coluna existente no DataFrame, remove espaços externos,
+        converte letras para maiúsculas e remove hífens e sublinhados.
+
+        Colunas configuradas que não existirem no DataFrame serão ignoradas.
+
+        Args:
+            df: DataFrame que contém os dados a serem padronizados.
+
+        Returns:
+            DataFrame com os valores das colunas configuradas padronizados.
+        """
+        for coluna in self.cols_padronizar:
+            if coluna in df.columns:
+                df[coluna] = (
+                    df[coluna]
+                    .astype("string")
+                    .str.strip()
+                    .str.upper()
+                    .str.replace(r"[-_]", "", regex=True)
+                )
 
         return df

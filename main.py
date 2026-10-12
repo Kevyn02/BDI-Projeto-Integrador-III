@@ -90,9 +90,10 @@ def main() -> int:
                         "Pecas Refugadas",
                     ],
                     ["ID Maquina", "Status Operacao"],
+                    ["ID Maquina"],
                 ),
-                # TransformadorDados(),
-                # ExportadorDados(CAMINHO_TRATADO),
+                TransformadorDados("Timestamp Registro"),
+                ExportadorDados(CAMINHO_TRATADO),
             ]
         )
 

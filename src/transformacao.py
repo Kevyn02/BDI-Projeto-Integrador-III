@@ -45,14 +45,14 @@ class TransformadorDados(EstagioBase):
 
     def __init__(
         self,
-        col_data: str = "Timestamp Registro",
+        col_data: str,
     ) -> None:
         """
         Inicializa o transformador de dados.
 
         Args:
             col_data: Nome da coluna que contém a data e a hora
-                dos registros. O padrão é "Timestamp Registro".
+                dos registros.
         """
 
         self.col_data = col_data
